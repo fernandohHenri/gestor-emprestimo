@@ -39,3 +39,8 @@ nas linhas:
 	
 Na primeira execução deverá existir o banco "emprestimo" no MysqlServer com isso o JPA já fará a criação das tabelas
 e a inserção dos dados iniciais desde que não haja erros nas configurações ditas acima.
+
+ALUNOS:
+FERNANDO HENRIQUE SANTOS SOUZA
+KETELEM LEMES DE CAMPOS
+DANIEL PRADO
