@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="AgenciaEditDlg" widgetVar="AgenciaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mensagem.EditAgenciaTitle}" closeOnEscape="true">
+
+            <h:form id="AgenciaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{agenciaController.selecionado != null}">
+
+
+                        <h:outputLabel value="#{mensagem.EditAgenciaLabel_codAgencia}" for="codAgencia" />
+                        <h:outputText id="codAgencia" value="#{agenciaController.selecionado.codAgencia}" />
+
+                        <p:outputLabel value="#{mensagem.EditAgenciaLabel_nome}" for="nome" />
+                        <p:inputText id="nome" value="#{agenciaController.selecionado.nome}" title="#{mensagem.EditAgenciaTitle_nome}" size="200" maxlength="200"/>
+
+                        <p:outputLabel value="#{mensagem.EditAgenciaLabel_prefixo}" for="prefixo" />
+                        <p:inputText id="prefixo" value="#{agenciaController.selecionado.prefixo}" title="#{mensagem.EditAgenciaTitle_prefixo}" required="true" requiredMessage="#{mensagem.EditAgenciaRequiredMessage_prefixo}"/>
+
+                        <p:outputLabel value="#{mensagem.EditAgenciaLabel_dependencia}" for="dependencia" />
+                        <p:inputText id="dependencia" value="#{agenciaController.selecionado.dependencia}" title="#{mensagem.EditAgenciaTitle_dependencia}" size="10" maxlength="10"/>
+
+                        <p:outputLabel value="#{mensagem.EditAgenciaLabel_uf}" for="uf" />
+                        <p:inputText id="uf" value="#{agenciaController.selecionado.uf}" title="#{mensagem.EditAgenciaTitle_uf}" size="4" maxlength="4"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{agenciaController.save}" value="#{mensagem.Save}" update="display,:AgenciaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AgenciaEditDialog'));">
+                        <p:confirm header="#{mensagem.ConfirmationHeader}" message="#{mensagem.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mensagem.Cancel}" oncomplete="PF('AgenciaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

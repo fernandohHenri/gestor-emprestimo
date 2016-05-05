@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EmprestimoListForm">
+
+        <p:panel header="#{mensagem.ListEmprestimoTitle}" >
+            <p:contextMenu id="EmprestimoDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{mensagem.Create}" onclick="document.getElementById('EmprestimoListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{mensagem.View}" onclick="document.getElementById('EmprestimoListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{mensagem.Edit}" onclick="document.getElementById('EmprestimoListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{mensagem.Delete}" onclick="document.getElementById('EmprestimoListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{mensagem.EmprestimoMenuItem_agenciaCodAgencia}" icon="ui-icon-search"  actionListener="#{emprestimoController.prepareAgenciaCodAgencia}" update=":AgenciaViewForm" oncomplete="PF('AgenciaViewDialog').show()" disabled="#{empty emprestimoController.selecionado.agenciaCodAgencia}"/>  
+                <p:menuitem value="#{mensagem.EmprestimoMenuItem_faseIdfases}" icon="ui-icon-search"  actionListener="#{emprestimoController.prepareFaseIdfases}" update=":FaseViewForm" oncomplete="PF('FaseViewDialog').show()" disabled="#{empty emprestimoController.selecionado.faseIdfases}"/>  
+                <p:menuitem value="#{mensagem.EmprestimoMenuItem_porteIdporte}" icon="ui-icon-search"  actionListener="#{emprestimoController.preparePorteIdporte}" update=":PorteViewForm" oncomplete="PF('PorteViewDialog').show()" disabled="#{empty emprestimoController.selecionado.porteIdporte}"/>  
+                <p:menuitem value="#{mensagem.EmprestimoMenuItem_registroList}" icon="ui-icon-search"  action="#{emprestimoController.navigateRegistroList}" disabled="#{empty emprestimoController.selecionado.registroList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{emprestimoController.itens}"
+                         lazy="false"
+                         rowKey="#{item.idEmprestimo}"
+                         var="item"
+                         paginator="true"
+                         paginatorPosition="bottom"
+                         reflow="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{emprestimoController.selecionado}"
+                         scrollable="true"
+                         scrollHeight="150"
+                         stickyHeader="false">
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EmprestimoDataTableContextMenu" listener="#{emprestimoController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EmprestimoDataTableContextMenu" listener="#{emprestimoController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{emprestimoController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('EmprestimoListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idEmprestimo}" filterBy="#{item.idEmprestimo}" rendered="false">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListEmprestimoTitle_idEmprestimo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idEmprestimo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cliente}" filterBy="#{item.cliente}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListEmprestimoTitle_cliente}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cliente}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cpf}" filterBy="#{item.cpf}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListEmprestimoTitle_cpf}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cpf}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.itensFinanciar}" filterBy="#{item.itensFinanciar}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListEmprestimoTitle_itensFinanciar}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.itensFinanciar}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.valorFinanciamento}" filterBy="#{item.valorFinanciamento}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListEmprestimoTitle_valorFinanciamento}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.valorFinanciamento}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.contrapartida}" filterBy="#{item.contrapartida}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListEmprestimoTitle_contrapartida}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.contrapartida}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.data}" filterBy="#{item.data}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListEmprestimoTitle_data}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.data}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.agenciaCodAgencia.prefixo}" filterBy="#{item.agenciaCodAgencia.prefixo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListEmprestimoTitle_agenciaPrefixo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.agenciaCodAgencia.prefixo}"/>
+                </p:column>
+
+                
+                <p:column sortBy="#{item.agenciaCodAgencia.nome}" filterBy="#{item.agenciaCodAgencia.nome}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListEmprestimoTitle_agenciaCodAgencia}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.agenciaCodAgencia.nome}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.faseIdfases.valor}" filterBy="#{item.faseIdfases.valor}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListEmprestimoTitle_faseIdfases}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.faseIdfases.valor}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.porteIdporte.valor}" filterBy="#{item.porteIdporte.valor}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListEmprestimoTitle_porteIdporte}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.porteIdporte.valor}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{mensagem.Create}" actionListener="#{emprestimoController.prepareCreate}" update=":EmprestimoCreateForm" oncomplete="PF('EmprestimoCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{mensagem.View}" update=":EmprestimoViewForm" oncomplete="PF('EmprestimoViewDialog').show()" disabled="#{empty emprestimoController.selecionado}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{mensagem.Edit}" update=":EmprestimoEditForm" oncomplete="PF('EmprestimoEditDialog').show()" disabled="#{empty emprestimoController.selecionado}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{mensagem.Delete}" actionListener="#{emprestimoController.delete}" update=":growl,datalist" disabled="#{empty emprestimoController.selecionado}">
+                <p:confirm header="#{mensagem.ConfirmationHeader}" message="#{mensagem.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

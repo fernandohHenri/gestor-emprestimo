@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioCreateDlg" widgetVar="UsuarioCreateDialog" modal="true" 
+                  appendTo="@(body)" header="#{mensagem.CreateUsuarioTitle}" 
+                  closeOnEscape="true" responsive="true" resizable="false" 
+                  style="min-width: 300px">
+
+            <h:form id="UsuarioCreateForm">
+
+                <h:panelGroup id="display" layout="block" styleClass="ui-fluid"
+                              rendered="#{usuarioController.selecionado != null}">
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+                                 styleClass="panelgrid-noborder" layout="grid">
+
+                        <p:outputLabel value="#{mensagem.CreateUsuarioLabel_login}" for="login" />
+                        <p:inputText id="login" value="#{usuarioController.selecionado.login}" 
+                                     title="#{mensagem.CreateUsuarioTitle_login}" required="true" 
+                                     requiredMessage="#{mensagem.CreateUsuarioRequiredMessage_login}" 
+                                     size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{mensagem.CreateUsuarioLabel_senha}" for="senha" />
+                        <p:password id="senha" value="#{usuarioController.selecionado.senha}" 
+                                    title="#{mensagem.CreateUsuarioTitle_senha}" required="true"
+                                    requiredMessage="#{mensagem.CreateUsuarioRequiredMessage_senha}" 
+                                    size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{mensagem.CreateUsuarioLabel_nome}" for="nome" />
+                        <p:inputText id="nome" value="#{usuarioController.selecionado.nome}" 
+                                     title="#{mensagem.CreateUsuarioTitle_nome}" required="true" 
+                                     requiredMessage="#{mensagem.CreateUsuarioRequiredMessage_nome}" 
+                                     size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{mensagem.CreateUsuarioLabel_apelido}" for="apelido" />
+                        <p:inputText id="apelido" value="#{usuarioController.selecionado.apelido}" 
+                                     title="#{mensagem.CreateUsuarioTitle_apelido}" size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{mensagem.CreateUsuarioLabel_matricula}" for="matricula" />
+                        <p:inputText id="matricula" value="#{usuarioController.selecionado.matricula}" 
+                                     title="#{mensagem.CreateUsuarioTitle_matricula}" required="true" 
+                                     requiredMessage="#{mensagem.CreateUsuarioRequiredMessage_matricula}" 
+                                     size="10" maxlength="10"/>
+
+                        <p:outputLabel value="#{mensagem.CreateUsuarioLabel_tipoUsuario}" for="tipoUsuario" />
+                        <p:inputText id="tipoUsuario" value="#{usuarioController.selecionado.tipoUsuario}" 
+                                     title="#{mensagem.CreateUsuarioTitle_tipoUsuario}" size="45" maxlength="45"/>
+
+                        <h:outputLabel/>
+                        <h:panelGroup>
+                            <div class="ui-grid-row ui-grid-col-12">
+                                <p:commandButton actionListener="#{usuarioController.saveNew}" value="#{mensagem.Save}" 
+                                                 update="display,:UsuarioListForm:datalist,:growl" styleClass="ui-grid-col-4"
+                                                 oncomplete="handleSubmit(xhr,status,args,PF('UsuarioCreateDialog'));">
+                                    <p:confirm header="#{mensagem.ConfirmationHeader}" message="#{mensagem.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                                </p:commandButton>
+                                <h:outputLabel class="ui-grid-col-4"/>
+                                <p:commandButton value="#{mensagem.Cancel}" oncomplete="PF('UsuarioCreateDialog').hide()" styleClass="ui-grid-col-4"
+                                                 update="display" process="@this" immediate="true" resetValues="true"/>
+                            </div>
+                        </h:panelGroup>
+
+                    </p:panelGrid>
+                </h:panelGroup>
+                
+            </h:form>
+        </p:dialog>
+        
+    </ui:composition>
+
+</html>

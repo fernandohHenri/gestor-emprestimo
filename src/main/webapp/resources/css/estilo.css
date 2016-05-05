@@ -1,0 +1,80 @@
+@charset "utf-8";
+
+body {
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0px;
+    font-weight: normal;
+}
+
+header {
+    padding: 5px;
+    margin-bottom: 20px;
+    height: 30px;
+    background-color: #545454;
+    color: #fff;
+    box-shadow: 0px 2px 2px #ccc
+}
+
+#conteudo {
+    padding: 0px 8px
+}
+
+footer {
+    border-top: 1px solid #ccc;
+    padding: 5px 8px;
+    margin-top: 20px;
+    margin-bottom: 10px
+}
+
+h1 {
+    font-size: 36px;
+    font-weight: 500;
+    padding: 0px;
+    margin: 0px;
+    margin-bottom: 10px
+}
+
+.ajax-status {
+    position: fixed;
+    top: 85px;
+    right: 10px;
+    width: 35px;
+    height: 35px
+}
+
+#login-dialog {
+    width: 400px;
+    margin: auto;
+    margin-top: 150px;
+    z-index: 10;
+    box-shadow: #545454
+}
+
+.grid-login {
+    background-color: #f2f2f2;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-top: 8px;
+    padding: 10px;
+    width: 100%
+}
+
+no-border{
+    border: none !important;
+}
+
+.login-background{
+    background: url('resources/image/dark-dollar-1-1237052.jpg') no-repeat fixed center;
+    /*background-position: center;*/
+     background-size: cover;
+}
+
+div.log{
+    width: 480px;
+    margin: auto;
+    margin-top: 120px;
+    /*background-color: #000000;*/    
+    /*opacity: .4;*/
+    z-index: -10;
+}

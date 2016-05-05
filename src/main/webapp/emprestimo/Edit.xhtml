@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EmprestimoEditDlg" widgetVar="EmprestimoEditDialog" modal="true" 
+                  appendTo="@(body)" header="#{mensagem.EditEmprestimoTitle}" 
+                  closeOnEscape="true" responsive="true" resizable="false" 
+                  style="min-width: 300px">
+
+            <h:form id="EmprestimoEditForm">
+
+                <h:panelGroup id="display" layout="block" styleClass="ui-fluid">
+                    <p:panelGrid  columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+                                  styleClass="panelgrid-noborder" layout="grid"
+                                  rendered="#{emprestimoController.selecionado != null}">
+
+
+                        <h:outputLabel value="#{mensagem.EditEmprestimoLabel_idEmprestimo}" for="idEmprestimo" />
+                        <h:outputText id="idEmprestimo" value="#{emprestimoController.selecionado.idEmprestimo}" />
+
+                        <p:outputLabel value="#{mensagem.EditEmprestimoLabel_cliente}" for="cliente" />
+                        <p:inputText id="cliente" value="#{emprestimoController.selecionado.cliente}" title="#{mensagem.EditEmprestimoTitle_cliente}" size="200" maxlength="200"/>
+
+                        <p:outputLabel value="#{mensagem.EditEmprestimoLabel_cpf}" for="cpf" />
+                        <p:inputText id="cpf" value="#{emprestimoController.selecionado.cpf}" title="#{mensagem.EditEmprestimoTitle_cpf}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{mensagem.EditEmprestimoLabel_itensFinanciar}" for="itensFinanciar" />
+                        <p:inputTextarea rows="4" cols="30" id="itensFinanciar" value="#{emprestimoController.selecionado.itensFinanciar}" title="#{mensagem.EditEmprestimoTitle_itensFinanciar}" />
+
+                        <p:outputLabel value="#{mensagem.EditEmprestimoLabel_valorFinanciamento}" for="valorFinanciamento" />
+                        <p:inputText id="valorFinanciamento" value="#{emprestimoController.selecionado.valorFinanciamento}" title="#{mensagem.EditEmprestimoTitle_valorFinanciamento}"/>
+
+                        <p:outputLabel value="#{mensagem.EditEmprestimoLabel_contrapartida}" for="contrapartida" />
+                        <p:inputText id="contrapartida" value="#{emprestimoController.selecionado.contrapartida}" title="#{mensagem.EditEmprestimoTitle_contrapartida}"/>
+
+                        <p:outputLabel value="#{mensagem.EditEmprestimoLabel_data}" for="data" />
+                        <p:calendar id="data" pattern="MM/dd/yyyy" value="#{emprestimoController.selecionado.data}" title="#{mensagem.EditEmprestimoTitle_data}"  showOn="button"/>
+
+                        <p:outputLabel value="#{mensagem.EditEmprestimoLabel_agenciaCodAgencia}" for="agenciaCodAgencia" />
+                        <p:selectOneMenu id="agenciaCodAgencia" value="#{emprestimoController.selecionado.agenciaCodAgencia}" required="true" requiredMessage="#{mensagem.EditEmprestimoRequiredMessage_agenciaCodAgencia}" converter="agenciaConverter">
+                            <f:selectItem itemLabel="#{mensagem.SelectOneMessage}"/>
+                            <f:selectItems value="#{agenciaController.items}"
+                                           var="agenciaCodAgenciaItem"
+                                           itemValue="#{agenciaCodAgenciaItem}"
+                                           itemLabel="#{agenciaCodAgenciaItem.codAgencia.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{mensagem.EditEmprestimoLabel_faseIdfases}" for="faseIdfases" />
+                        <p:selectOneMenu id="faseIdfases" value="#{emprestimoController.selecionado.faseIdfases}" required="true" requiredMessage="#{mensagem.EditEmprestimoRequiredMessage_faseIdfases}" converter="faseConverter">
+                            <f:selectItem itemLabel="#{mensagem.SelectOneMessage}"/>
+                            <f:selectItems value="#{faseController.items}"
+                                           var="faseIdfasesItem"
+                                           itemValue="#{faseIdfasesItem}"
+                                           itemLabel="#{faseIdfasesItem.idfases.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{mensagem.EditEmprestimoLabel_porteIdporte}" for="porteIdporte" />
+                        <p:selectOneMenu id="porteIdporte" value="#{emprestimoController.selecionado.porteIdporte}" required="true" requiredMessage="#{mensagem.EditEmprestimoRequiredMessage_porteIdporte}" converter="porteConverter">
+                            <f:selectItem itemLabel="#{mensagem.SelectOneMessage}"/>
+                            <f:selectItems value="#{porteController.items}"
+                                           var="porteIdporteItem"
+                                           itemValue="#{porteIdporteItem}"
+                                           itemLabel="#{porteIdporteItem.idporte.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{emprestimoController.save}" value="#{mensagem.Save}" update="display,:EmprestimoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EmprestimoEditDialog'));">
+                        <p:confirm header="#{mensagem.ConfirmationHeader}" message="#{mensagem.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mensagem.Cancel}" oncomplete="PF('EmprestimoEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

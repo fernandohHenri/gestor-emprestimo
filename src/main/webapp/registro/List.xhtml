@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="RegistroListForm">
+
+        <p:panel header="#{mensagem.ListRegistroTitle}">
+            <p:contextMenu id="RegistroDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{mensagem.Create}" onclick="document.getElementById('RegistroListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{mensagem.View}" onclick="document.getElementById('RegistroListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{mensagem.Edit}" onclick="document.getElementById('RegistroListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{mensagem.Delete}" onclick="document.getElementById('RegistroListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{mensagem.RegistroMenuItem_emprestimoIdemprestimo}" icon="ui-icon-search"  actionListener="#{registroController.prepareEmprestimoIdemprestimo}" update=":EmprestimoViewForm" oncomplete="PF('EmprestimoViewDialog').show()" disabled="#{empty registroController.selecionado.emprestimoIdemprestimo}"/>  
+                <p:menuitem value="#{mensagem.RegistroMenuItem_usuarioIdusuario}" icon="ui-icon-search"  actionListener="#{registroController.prepareUsuarioIdusuario}" update=":UsuarioViewForm" oncomplete="PF('UsuarioViewDialog').show()" disabled="#{empty registroController.selecionado.usuarioIdusuario}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{registroController.itens}"
+                         lazy="false"
+                         rowKey="#{item.idregistro}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{registroController.selecionado}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{registroController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idregistro}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:RegistroDataTableContextMenu" listener="#{registroController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:RegistroDataTableContextMenu" listener="#{registroController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{registroController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('RegistroListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idregistro}" filterBy="#{item.idregistro}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListRegistroTitle_idregistro}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idregistro}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.operacao}" filterBy="#{item.operacao}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListRegistroTitle_operacao}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.operacao}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.data}" filterBy="#{item.data}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListRegistroTitle_data}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.data}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.emprestimoIdemprestimo.idEmprestimo}" filterBy="#{item.emprestimoIdemprestimo.idEmprestimo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListRegistroTitle_emprestimoIdemprestimo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.emprestimoIdemprestimo.idEmprestimo}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.usuarioIdusuario.idusuario}" filterBy="#{item.usuarioIdusuario.idusuario}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListRegistroTitle_usuarioIdusuario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.usuarioIdusuario.nome}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{mensagem.Create}" actionListener="#{registroController.prepareCreate}" update=":RegistroCreateForm" oncomplete="PF('RegistroCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{mensagem.View}" update=":RegistroViewForm" oncomplete="PF('RegistroViewDialog').show()" disabled="#{empty registroController.selecionado}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{mensagem.Edit}" update=":RegistroEditForm" oncomplete="PF('RegistroEditDialog').show()" disabled="#{empty registroController.selecionado}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{mensagem.Delete}" actionListener="#{registroController.delete}" update=":growl,datalist" disabled="#{empty registroController.selecionado}">
+                <p:confirm header="#{mensagem.ConfirmationHeader}" message="#{mensagem.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

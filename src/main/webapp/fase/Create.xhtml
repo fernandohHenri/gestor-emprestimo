@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FaseCreateDlg" widgetVar="FaseCreateDialog" modal="true" 
+                  appendTo="@(body)" header="#{mensagem.CreateFaseTitle}" 
+                  closeOnEscape="true" resizable="false" responsive="true"> 
+
+            <h:form id="FaseCreateForm">
+
+                <h:panelGroup id="display" layout="block" styleClass="ui-fluid"
+                              rendered="#{faseController.selecionado != null}">
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+                                 styleClass="panelgrid-noborder" layout="grid">
+
+                        <p:outputLabel value="#{mensagem.CreateFaseLabel_valor}" for="valor" />
+                        <p:inputText id="valor" value="#{faseController.selecionado.valor}"
+                                     title="#{mensagem.CreateFaseTitle_valor}" required="true" 
+                                     requiredMessage="#{mensagem.CreateFaseRequiredMessage_valor}" 
+                                     size="40" maxlength="100"/>
+
+                        <h:outputLabel/>
+                        <h:panelGroup>
+                            <div class="ui-grid-row ui-grid-col-12">
+                                <p:commandButton actionListener="#{faseController.saveNew}" value="#{mensagem.Save}" update="display,:FaseListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('FaseCreateDialog'));">
+                                    <p:confirm header="#{mensagem.ConfirmationHeader}" message="#{mensagem.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                                </p:commandButton>
+
+                                <p:commandButton value="#{mensagem.Cancel}" oncomplete="PF('FaseCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+
+                            </div>
+                        </h:panelGroup>
+
+                    </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

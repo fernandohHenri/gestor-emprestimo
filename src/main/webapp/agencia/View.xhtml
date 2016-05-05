@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AgenciaViewDlg" widgetVar="AgenciaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mensagem.ViewAgenciaTitle}" closeOnEscape="true">
+
+            <h:form id="AgenciaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{agenciaController.selecionado != null}">
+
+                        <h:outputText value="#{mensagem.ViewAgenciaLabel_codAgencia}"/>
+                        <h:outputText value="#{agenciaController.selecionado.codAgencia}" title="#{mensagem.ViewAgenciaTitle_codAgencia}"/>
+
+                        <h:outputText value="#{mensagem.ViewAgenciaLabel_nome}"/>
+                        <h:outputText value="#{agenciaController.selecionado.nome}" title="#{mensagem.ViewAgenciaTitle_nome}"/>
+
+                        <h:outputText value="#{mensagem.ViewAgenciaLabel_prefixo}"/>
+                        <h:outputText value="#{agenciaController.selecionado.prefixo}" title="#{mensagem.ViewAgenciaTitle_prefixo}"/>
+
+                        <h:outputText value="#{mensagem.ViewAgenciaLabel_dependencia}"/>
+                        <h:outputText value="#{agenciaController.selecionado.dependencia}" title="#{mensagem.ViewAgenciaTitle_dependencia}"/>
+
+                        <h:outputText value="#{mensagem.ViewAgenciaLabel_uf}"/>
+                        <h:outputText value="#{agenciaController.selecionado.uf}" title="#{mensagem.ViewAgenciaTitle_uf}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{mensagem.Close}" onclick="PF('AgenciaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

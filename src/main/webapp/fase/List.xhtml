@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="FaseListForm">
+
+        <p:panel header="#{mensagem.ListFaseTitle}">
+            <p:contextMenu id="FaseDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{mensagem.Create}" onclick="document.getElementById('FaseListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{mensagem.View}" onclick="document.getElementById('FaseListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{mensagem.Edit}" onclick="document.getElementById('FaseListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{mensagem.Delete}" onclick="document.getElementById('FaseListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{mensagem.FaseMenuItem_emprestimoList}" icon="ui-icon-search"  action="#{faseController.navigateEmprestimoList}" disabled="#{empty faseController.selecionado.emprestimoList}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{faseController.itens}"
+                         lazy="false"
+                         rowKey="#{item.idfases}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{faseController.selecionado}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{faseController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idfases}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:FaseDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:FaseDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('FaseListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idfases}" filterBy="#{item.idfases}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListFaseTitle_idfases}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idfases}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.valor}" filterBy="#{item.valor}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListFaseTitle_valor}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.valor}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{mensagem.Create}" actionListener="#{faseController.prepareCreate}" update=":FaseCreateForm" oncomplete="PF('FaseCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{mensagem.View}" update=":FaseViewForm" oncomplete="PF('FaseViewDialog').show()" disabled="#{empty faseController.selecionado}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{mensagem.Edit}" update=":FaseEditForm" oncomplete="PF('FaseEditDialog').show()" disabled="#{empty faseController.selecionado}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{mensagem.Delete}" actionListener="#{faseController.delete}" update=":growl,datalist" disabled="#{empty faseController.selecionado}">
+                <p:confirm header="#{mensagem.ConfirmationHeader}" message="#{mensagem.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="FaseViewDlg" widgetVar="FaseViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mensagem.ViewFaseTitle}" closeOnEscape="true">
+
+            <h:form id="FaseViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{faseController.selecionado != null}">
+
+                        <h:outputText value="#{mensagem.ViewFaseLabel_idfases}"/>
+                        <h:outputText value="#{faseController.selecionado.idfases}" title="#{mensagem.ViewFaseTitle_idfases}"/>
+
+                        <h:outputText value="#{mensagem.ViewFaseLabel_valor}"/>
+                        <h:outputText value="#{faseController.selecionado.valor}" title="#{mensagem.ViewFaseTitle_valor}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{mensagem.Close}" onclick="PF('FaseViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

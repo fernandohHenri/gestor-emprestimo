@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="RegistroEditDlg" widgetVar="RegistroEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mensagem.EditRegistroTitle}" closeOnEscape="true">
+
+            <h:form id="RegistroEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{registroController.selecionado != null}">
+
+
+                        <h:outputLabel value="#{mensagem.EditRegistroLabel_idregistro}" for="idregistro" />
+                        <h:outputText id="idregistro" value="#{registroController.selecionado.idregistro}" />
+
+                        <p:outputLabel value="#{mensagem.EditRegistroLabel_operacao}" for="operacao" />
+                        <p:inputText id="operacao" value="#{registroController.selecionado.operacao}" title="#{mensagem.EditRegistroTitle_operacao}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{mensagem.EditRegistroLabel_data}" for="data" />
+                        <p:calendar id="data" pattern="MM/dd/yyyy HH:mm:ss" value="#{registroController.selecionado.data}" title="#{mensagem.EditRegistroTitle_data}"  showOn="button"/>
+
+                        <p:outputLabel value="#{mensagem.EditRegistroLabel_emprestimoIdemprestimo}" for="emprestimoIdemprestimo" />
+                        <p:selectOneMenu id="emprestimoIdemprestimo" value="#{registroController.selecionado.emprestimoIdemprestimo}" required="true" requiredMessage="#{mensagem.EditRegistroRequiredMessage_emprestimoIdemprestimo}" converter="emprestimoConverter">
+                            <f:selectItem itemLabel="#{mensagem.SelectOneMessage}"/>
+                            <f:selectItems value="#{emprestimoController.items}"
+                                           var="emprestimoIdemprestimoItem"
+                                           itemValue="#{emprestimoIdemprestimoItem}"
+                                           itemLabel="#{emprestimoIdemprestimoItem.idEmprestimo.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{mensagem.EditRegistroLabel_usuarioIdusuario}" for="usuarioIdusuario" />
+                        <p:selectOneMenu id="usuarioIdusuario" value="#{registroController.selecionado.usuarioIdusuario}" required="true" requiredMessage="#{mensagem.EditRegistroRequiredMessage_usuarioIdusuario}" converter="usuarioConverter">
+                            <f:selectItem itemLabel="#{mensagem.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.items}"
+                                           var="usuarioIdusuarioItem"
+                                           itemValue="#{usuarioIdusuarioItem}"
+                                           itemLabel="#{usuarioIdusuarioItem.idusuario.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{registroController.save}" value="#{mensagem.Save}" update="display,:RegistroListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('RegistroEditDialog'));">
+                        <p:confirm header="#{mensagem.ConfirmationHeader}" message="#{mensagem.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mensagem.Cancel}" oncomplete="PF('RegistroEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

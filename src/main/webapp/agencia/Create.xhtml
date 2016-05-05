@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AgenciaCreateDlg" widgetVar="AgenciaCreateDialog" modal="true"
+                  appendTo="@(body)" header="#{mensagem.CreateAgenciaTitle}" 
+                  closeOnEscape="true" responsive="true" resizable="false" 
+                  style="min-width: 300px">
+
+            <h:form id="AgenciaCreateForm">
+
+                <h:panelGroup id="display"  layout="block" styleClass="ui-fluid"
+                              rendered="#{agenciaController.selecionado != null}">
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+                                 styleClass="panelgrid-noborder" layout="grid">
+
+                        <p:outputLabel value="#{mensagem.CreateAgenciaLabel_nome}" for="nome" />
+                        <p:inputText id="nome" value="#{agenciaController.selecionado.nome}" 
+                                     title="#{mensagem.CreateAgenciaTitle_nome}" size="40" maxlength="200"/>
+
+                        <p:outputLabel value="#{mensagem.CreateAgenciaLabel_prefixo}" for="prefixo" />
+                        <p:inputText id="prefixo" value="#{agenciaController.selecionado.prefixo}" 
+                                     title="#{mensagem.CreateAgenciaTitle_prefixo}" required="true" 
+                                     requiredMessage="#{mensagem.CreateAgenciaRequiredMessage_prefixo}"/>
+
+                        <p:outputLabel value="#{mensagem.CreateAgenciaLabel_dependencia}" for="dependencia" />
+                        <p:inputText id="dependencia" value="#{agenciaController.selecionado.dependencia}" 
+                                     title="#{mensagem.CreateAgenciaTitle_dependencia}" size="10" maxlength="10"/>
+
+                        <p:outputLabel value="#{mensagem.CreateAgenciaLabel_uf}" for="uf" />
+                        <p:inputText id="uf" value="#{agenciaController.selecionado.uf}" title="#{mensagem.CreateAgenciaTitle_uf}" size="4" maxlength="4"/>
+
+
+                        <h:outputLabel/>
+                        <h:panelGroup>
+                            <div class="ui-grid-row ui-grid-col-12">
+                                <p:commandButton actionListener="#{agenciaController.saveNew}" value="#{mensagem.Save}" update="display,:AgenciaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('AgenciaCreateDialog'));">
+                                    <p:confirm header="#{mensagem.ConfirmationHeader}" message="#{mensagem.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                                </p:commandButton>
+
+                                <p:commandButton value="#{mensagem.Cancel}" oncomplete="PF('AgenciaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                            </div>
+                        </h:panelGroup>
+
+                    </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

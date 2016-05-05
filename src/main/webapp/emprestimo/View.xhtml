@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EmprestimoViewDlg" widgetVar="EmprestimoViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mensagem.ViewEmprestimoTitle}" closeOnEscape="true">
+
+            <h:form id="EmprestimoViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{emprestimoController.selecionado != null}">
+
+                        <h:outputText value="#{mensagem.ViewEmprestimoLabel_idEmprestimo}"/>
+                        <h:outputText value="#{emprestimoController.selecionado.idEmprestimo}" title="#{mensagem.ViewEmprestimoTitle_idEmprestimo}"/>
+
+                        <h:outputText value="#{mensagem.ViewEmprestimoLabel_cliente}"/>
+                        <h:outputText value="#{emprestimoController.selecionado.cliente}" title="#{mensagem.ViewEmprestimoTitle_cliente}"/>
+
+                        <h:outputText value="#{mensagem.ViewEmprestimoLabel_cpf}"/>
+                        <h:outputText value="#{emprestimoController.selecionado.cpf}" title="#{mensagem.ViewEmprestimoTitle_cpf}"/>
+
+                        <h:outputText value="#{mensagem.ViewEmprestimoLabel_itensFinanciar}"/>
+                        <h:outputText value="#{emprestimoController.selecionado.itensFinanciar}" title="#{mensagem.ViewEmprestimoTitle_itensFinanciar}"/>
+
+                        <h:outputText value="#{mensagem.ViewEmprestimoLabel_valorFinanciamento}"/>
+                        <h:outputText value="#{emprestimoController.selecionado.valorFinanciamento}" title="#{mensagem.ViewEmprestimoTitle_valorFinanciamento}"/>
+
+                        <h:outputText value="#{mensagem.ViewEmprestimoLabel_contrapartida}"/>
+                        <h:outputText value="#{emprestimoController.selecionado.contrapartida}" title="#{mensagem.ViewEmprestimoTitle_contrapartida}"/>
+
+                        <h:outputText value="#{mensagem.ViewEmprestimoLabel_data}"/>
+                        <h:outputText value="#{emprestimoController.selecionado.data}" title="#{mensagem.ViewEmprestimoTitle_data}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{mensagem.ViewEmprestimoLabel_agenciaCodAgencia}"/>
+                        <h:outputText value="#{emprestimoController.selecionado.agenciaCodAgencia.codAgencia}"/>
+
+                        <h:outputText value="#{mensagem.ViewEmprestimoLabel_faseIdfases}"/>
+                        <h:outputText value="#{emprestimoController.selecionado.faseIdfases.idfases}"/>
+
+                        <h:outputText value="#{mensagem.ViewEmprestimoLabel_porteIdporte}"/>
+                        <h:outputText value="#{emprestimoController.selecionado.porteIdporte.idporte}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{mensagem.Close}" onclick="PF('EmprestimoViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

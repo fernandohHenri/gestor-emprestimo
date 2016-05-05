@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UsuarioEditDlg" widgetVar="UsuarioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{mensagem.EditUsuarioTitle}" closeOnEscape="true">
+
+            <h:form id="UsuarioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{usuarioController.selecionado != null}">
+
+
+                        <h:outputLabel value="#{mensagem.EditUsuarioLabel_idusuario}" for="idusuario" />
+                        <h:outputText id="idusuario" value="#{usuarioController.selecionado.idusuario}" />
+
+                        <p:outputLabel value="#{mensagem.EditUsuarioLabel_login}" for="login" />
+                        <p:inputText id="login" value="#{usuarioController.selecionado.login}" title="#{mensagem.EditUsuarioTitle_login}" required="true" requiredMessage="#{mensagem.EditUsuarioRequiredMessage_login}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{mensagem.EditUsuarioLabel_senha}" for="senha" />
+                        <p:inputText id="senha" value="#{usuarioController.selecionado.senha}" title="#{mensagem.EditUsuarioTitle_senha}" required="true" requiredMessage="#{mensagem.EditUsuarioRequiredMessage_senha}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{mensagem.EditUsuarioLabel_nome}" for="nome" />
+                        <p:inputText id="nome" value="#{usuarioController.selecionado.nome}" title="#{mensagem.EditUsuarioTitle_nome}" required="true" requiredMessage="#{mensagem.EditUsuarioRequiredMessage_nome}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{mensagem.EditUsuarioLabel_apelido}" for="apelido" />
+                        <p:inputText id="apelido" value="#{usuarioController.selecionado.apelido}" title="#{mensagem.EditUsuarioTitle_apelido}" size="40" maxlength="40"/>
+
+                        <p:outputLabel value="#{mensagem.EditUsuarioLabel_matricula}" for="matricula" />
+                        <p:inputText id="matricula" value="#{usuarioController.selecionado.matricula}" title="#{mensagem.EditUsuarioTitle_matricula}" required="true" requiredMessage="#{mensagem.EditUsuarioRequiredMessage_matricula}" size="10" maxlength="10"/>
+
+                        <p:outputLabel value="#{mensagem.EditUsuarioLabel_tipoUsuario}" for="tipoUsuario" />
+                        <p:inputText id="tipoUsuario" value="#{usuarioController.selecionado.tipoUsuario}" title="#{mensagem.EditUsuarioTitle_tipoUsuario}" size="45" maxlength="45"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuarioController.save}" value="#{mensagem.Save}" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('UsuarioEditDialog'));">
+                        <p:confirm header="#{mensagem.ConfirmationHeader}" message="#{mensagem.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{mensagem.Cancel}" oncomplete="PF('UsuarioEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

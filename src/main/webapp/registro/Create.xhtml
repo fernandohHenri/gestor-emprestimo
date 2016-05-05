@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RegistroCreateDlg" widgetVar="RegistroCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{mensagem.CreateRegistroTitle}" closeOnEscape="true">
+
+            <h:form id="RegistroCreateForm">
+
+                <h:panelGroup id="display" layout="block" styleClass="ui-fluid"
+                              rendered="#{registroController.selecionado != null}">
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+                                 styleClass="panelgrid-noborder" layout="grid">
+
+                        <p:outputLabel value="#{mensagem.CreateRegistroLabel_operacao}" for="operacao" />
+                        <p:inputText id="operacao" value="#{registroController.selecionado.operacao}" title="#{mensagem.CreateRegistroTitle_operacao}" size="45" maxlength="45"/>
+
+                        <p:outputLabel value="#{mensagem.CreateRegistroLabel_data}" for="data" />
+                        <p:calendar id="data" pattern="MM/dd/yyyy HH:mm:ss" value="#{registroController.selecionado.data}" title="#{mensagem.CreateRegistroTitle_data}"  showOn="button"/>
+
+                        <p:outputLabel value="#{mensagem.CreateRegistroLabel_emprestimoIdemprestimo}" for="emprestimoIdemprestimo" />
+                        <p:selectOneMenu id="emprestimoIdemprestimo" value="#{registroController.selecionado.emprestimoIdemprestimo}" required="true" requiredMessage="#{mensagem.CreateRegistroRequiredMessage_emprestimoIdemprestimo}" converter="emprestimoConverter">
+                            <f:selectItem itemLabel="#{mensagem.SelectOneMessage}"/>
+                            <f:selectItems value="#{emprestimoController.itens}"
+                                           var="emprestimoIdemprestimoItem"
+                                           itemValue="#{emprestimoIdemprestimoItem}"
+                                           itemLabel="#{emprestimoIdemprestimoItem.idEmprestimo.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{mensagem.CreateRegistroLabel_usuarioIdusuario}" for="usuarioIdusuario" />
+                        <p:selectOneMenu id="usuarioIdusuario" value="#{registroController.selecionado.usuarioIdusuario}" required="true" requiredMessage="#{mensagem.CreateRegistroRequiredMessage_usuarioIdusuario}" converter="usuarioConverter">
+                            <f:selectItem itemLabel="#{mensagem.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.itens}"
+                                           var="usuarioIdusuarioItem"
+                                           itemValue="#{usuarioIdusuarioItem}"
+                                           itemLabel="#{usuarioIdusuarioItem.idusuario.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                        <h:outputLabel/>
+                        <h:panelGroup>
+                            <div class="ui-grid-row ui-grid-col-12">
+                                <p:commandButton actionListener="#{registroController.saveNew}" value="#{mensagem.Save}" update="display,:RegistroListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('RegistroCreateDialog'));">
+                                    <p:confirm header="#{mensagem.ConfirmationHeader}" message="#{mensagem.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                                </p:commandButton>
+
+                                <p:commandButton value="#{mensagem.Cancel}" oncomplete="PF('RegistroCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+
+                            </div>
+                        </h:panelGroup>
+
+                    </p:panelGrid>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

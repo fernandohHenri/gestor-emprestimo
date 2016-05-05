@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="NavegacaoListForm">
+
+        <p:panel header="#{mensagem.ListNavegacaoTitle}">
+            
+            <p:dataTable id="datalist"
+                         value="#{navegacaoController.itens}"
+                         lazy="false"
+                         rowKey="#{item.idnavegacao}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{navegacaoController.selecionado}">
+                
+                <p:column sortBy="#{item.idnavegacao}" filterBy="#{item.idnavegacao}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListNavegacaoTitle_idnavegacao}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idnavegacao}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.pagina}" filterBy="#{item.pagina}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListNavegacaoTitle_pagina}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.pagina}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.data}" filterBy="#{item.data}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListNavegacaoTitle_data}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.data}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.usuarioIdusuario.idusuario}" filterBy="#{item.usuarioIdusuario.idusuario}">
+                    <f:facet name="header">
+                        <h:outputText value="#{mensagem.ListNavegacaoTitle_usuarioIdusuario}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.usuarioIdusuario.idusuario}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+        </p:panel>
+        
+    </h:form>
+
+</ui:composition>

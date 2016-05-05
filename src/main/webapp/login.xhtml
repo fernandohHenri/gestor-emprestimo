@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Login</title>
+        <h:outputStylesheet library="css" name="estilo.css" />
+    </h:head>
+
+    <h:body style="background-image: url('resources/image/background-1.jpg');
+            background-position: center;">
+
+        <p:panel id="login-dialog">
+            <!--<div id="login-dialog">-->
+            <center><h1>Login</h1></center>
+
+            <h:form id="frm">
+                <p:messages autoUpdate="true" />
+
+                <h:panelGrid id="pnGrid" columns="2" styleClass="grid-login">
+                    <p:outputLabel value="Usuário" for="usuario" />
+                    <p:inputText id="usuario" size="20" value="#{loginBean.nomeUsuario}" />
+
+                    <p:outputLabel value="Senha" for="senha" />
+                    <p:password id="senha" size="20" value="#{loginBean.senha}" />
+
+                    <p:outputLabel />
+                    <p:commandButton id="btnAcessar" value="Acessar" action="#{loginBean.login}"
+                                     onclick="PF('bui').show()" oncomplete="PF('bui').hide()"/>
+
+
+                </h:panelGrid>
+            </h:form><br/>
+            <!--</div>-->
+            <a href="recuperar-senha.xhtml">
+                <p style="float: right; color: #fff">Esqueceu sua senha</p>
+            </a>
+        </p:panel>
+        <p:blockUI block="login-dialog" widgetVar="bui" />
+
+    </h:body>
+
+</html>

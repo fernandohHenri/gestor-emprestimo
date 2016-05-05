@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EmprestimoCreateDlg" widgetVar="EmprestimoCreateDialog" modal="true" 
+                  appendTo="@(body)" header="#{mensagem.CreateEmprestimoTitle}" 
+                  closeOnEscape="true" responsive="true" resizable="false" 
+                  style="min-width: 300px">
+
+            <h:form id="EmprestimoCreateForm">
+
+                <h:panelGroup id="display" layout="block" styleClass="ui-fluid"
+                              rendered="#{emprestimoController.selecionado != null}">
+                    <p:panelGrid columns="2" columnClasses="ui-grid-col-3, ui-grid-col-9" 
+                                 styleClass="panelgrid-noborder" layout="grid">
+
+                        <p:outputLabel value="#{mensagem.CreateEmprestimoLabel_cliente}" for="cliente" />
+                        <p:inputText id="cliente" value="#{emprestimoController.selecionado.cliente}" 
+                                     title="#{mensagem.CreateEmprestimoTitle_cliente}" size="40" maxlength="200"/>
+
+                        <p:outputLabel value="#{mensagem.CreateEmprestimoLabel_cpf}" for="cpf" />
+                        <p:inputMask id="cpf" value="#{emprestimoController.selecionado.cpf}" mask="999.999.999-99"
+                                     title="#{mensagem.CreateEmprestimoTitle_cpf}"  size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{mensagem.CreateEmprestimoLabel_itensFinanciar}" for="itensFinanciar" />
+                        <p:inputTextarea rows="4" cols="30" id="itensFinanciar" value="#{emprestimoController.selecionado.itensFinanciar}" 
+                                         title="#{mensagem.CreateEmprestimoTitle_itensFinanciar}" />
+
+                        <p:outputLabel value="#{mensagem.CreateEmprestimoLabel_valorFinanciamento}" for="valorFinanciamento" />
+                        <p:inputNumber id="valorFinanciamento" value="#{emprestimoController.selecionado.valorFinanciamento}" 
+                                       decimalSeparator="," symbol="R$" thousandSeparator="." 
+                                       title="#{mensagem.CreateEmprestimoTitle_valorFinanciamento}"/>
+
+                        <p:outputLabel value="#{mensagem.CreateEmprestimoLabel_contrapartida}" for="contrapartida" />
+                        <p:inputText id="contrapartida" value="#{emprestimoController.selecionado.contrapartida}" 
+                                     title="#{mensagem.CreateEmprestimoTitle_contrapartida}" disabled="#{usuarioSessao.tipoUsuario.equals(mensagem.Admin)}"/>
+
+                        <p:outputLabel value="#{mensagem.CreateEmprestimoLabel_data}" for="data" />
+                        <p:calendar id="data" pattern="dd/MM/yyyy" value="#{emprestimoController.selecionado.data}" 
+                                    title="#{mensagem.CreateEmprestimoTitle_data}"  navigator="true" />
+
+                        <p:outputLabel value="#{mensagem.CreateEmprestimoLabel_agenciaCodAgencia}" for="agenciaCodAgencia" />
+                        <p:selectOneMenu id="agenciaCodAgencia" value="#{emprestimoController.selecionado.agenciaCodAgencia}" converter="omnifaces.SelectItemsConverter"
+                                         required="true" requiredMessage="#{mensagem.CreateEmprestimoRequiredMessage_agenciaCodAgencia}">
+                            <f:selectItem itemLabel="#{mensagem.SelectOneMessage}" noSelectionOption="true"/>
+                            <f:selectItems value="#{agenciaController.itens}"
+                                           var="agenciaCodAgenciaItem"
+                                           itemValue="#{agenciaCodAgenciaItem}"
+                                           itemLabel="#{agenciaCodAgenciaItem.nome}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{mensagem.CreateEmprestimoLabel_faseIdfases}" for="faseIdfases" />
+                        <p:selectOneMenu id="faseIdfases" value="#{emprestimoController.selecionado.faseIdfases}"  converter="omnifaces.SelectItemsConverter"
+                                         required="true" requiredMessage="#{mensagem.CreateEmprestimoRequiredMessage_faseIdfases}">
+                            <f:selectItem itemLabel="#{mensagem.SelectOneMessage}"/>
+                            <f:selectItems value="#{faseController.itens}"
+                                           var="faseIdfasesItem"
+                                           itemValue="#{faseIdfasesItem}"
+                                           itemLabel="#{faseIdfasesItem.valor.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{mensagem.CreateEmprestimoLabel_porteIdporte}" for="porteIdporte" />
+                        <p:selectOneMenu id="porteIdporte" value="#{emprestimoController.selecionado.porteIdporte}"  converter="omnifaces.SelectItemsConverter"
+                                         required="true" requiredMessage="#{mensagem.CreateEmprestimoRequiredMessage_porteIdporte}" >
+                            <f:selectItem itemLabel="#{mensagem.SelectOneMessage}"/>
+                            <f:selectItems value="#{porteController.itens}"
+                                           var="porteIdporteItem"
+                                           itemValue="#{porteIdporteItem}"
+                                           itemLabel="#{porteIdporteItem.valor.toString()}"
+                                           />
+                            
+                        </p:selectOneMenu>
+
+                        <h:outputLabel/>
+                        <h:panelGroup>
+                            <div class="ui-grid-row ui-grid-col-12">
+
+                                <p:commandButton actionListener="#{emprestimoController.saveNew}" value="#{mensagem.Save}" update="display,:EmprestimoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EmprestimoCreateDialog'));">
+                                    <p:confirm header="#{mensagem.ConfirmationHeader}" message="#{mensagem.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                                </p:commandButton>
+
+                                <p:commandButton value="#{mensagem.Cancel}" oncomplete="PF('EmprestimoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+
+                            </div>
+
+
+                        </h:panelGroup>
+                    </p:panelGrid>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
