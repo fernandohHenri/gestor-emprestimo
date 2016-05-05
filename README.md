@@ -5,13 +5,22 @@ O sistema possui dois tipos de usuário o administrador e o usuário comum. O ad
 informações de todas as tabelas(exceto a navegacao que ficará registrado todas as navegações no sistema), o usuário 
 comum poderá alterar as informações somente da tabela
 
-COMPONENTES
+COMPONENTES UTILIZADOS
  - dialog
  - datatable
  - inputMask
  - inputText
+ - calendar
+ - selectOneMenu
+ - outputlabel
+ - panelgrid
+ - panelgroup
+ - layout, layoutunit
+ - messages, growl
+ - confirmDIalog
+ - commandButton
  
-Bibliotecas
+BIBLIOTECAS
  - Primefaces
  - Omnifaces(conversor de objetos)
  - EclipseLink e EclipsePersistence JPA (Persistencia ao Banco)
