@@ -91,5 +91,21 @@ public class EmprestimoController extends AbstractController<Emprestimo> {
         
         
     }
+    public void update(ActionEvent event) {
+
+        String msg = "Cadastro Realizado com sucesso!";
+        emprestimos.edit(this.getSelecionado());
+
+        Usuario usuario = this.usuarios.porMatricula(userSessao.getMatricula());
+        Registro registro = new Registro();
+        registro.setUsuarioIdusuario(usuario);
+        registro.setData(new Date());
+        registro.setEmprestimoIdemprestimo(this.getSelecionado());
+        registro.setOperacao("Atualizou");
+        
+        registros.create(registro);
+        
+        
+    }
 
 }
